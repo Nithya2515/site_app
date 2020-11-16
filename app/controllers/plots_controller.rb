@@ -1,4 +1,7 @@
 class PlotsController < ApplicationController
+  before_action :authorize_access_request!
+  before_action :set_todo, only: [:show, :update, :destroy]
+
   def create
     render json: Plot.create!(plot_params) 
   end
