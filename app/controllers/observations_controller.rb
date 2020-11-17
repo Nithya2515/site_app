@@ -1,4 +1,5 @@
 class ObservationsController < ApplicationController
+  before_action :set_observation, only: [:show, :update, :destroy]
 
   def index
      @observations = Observation.all
@@ -34,9 +35,13 @@ class ObservationsController < ApplicationController
   end
 
   private
+
+  def set_observation
+    @observation = Observation.find(params[:id])
+  end
   
   def observation_params
-    params.require(:observation).permit(:title, :description, :plot_id)
+    params.permit(:title, :description, :plot_id, actions_attributes: [:id,:action_description, :category_id ], files: [])
   end
 
 end

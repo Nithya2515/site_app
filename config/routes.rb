@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   delete 'signin', controller: :signin, action: :destroy
 
   resources :plots do
-    resources :observations
+    resources :observations 
   end
 
 end

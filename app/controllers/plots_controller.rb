@@ -1,6 +1,6 @@
 class PlotsController < ApplicationController
-  before_action :authorize_access_request!
-  before_action :set_todo, only: [:show, :update, :destroy]
+  # before_action :authorize_access_request!
+  # before_action :set_plot, only: [:show, :update, :destroy]
 
   def create
     render json: Plot.create!(plot_params) 
@@ -13,7 +13,12 @@ class PlotsController < ApplicationController
   end
 
   private
+
+  def set_plot
+    @todo = current_user.plots.find(params[:id])
+  end
+
   def plot_params
-    params.require(:plot).permit(:name)
+    params.require(:plot).permit(:plot_name)
   end
 end
