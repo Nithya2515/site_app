@@ -1,5 +1,5 @@
 class ObservationsController < ApplicationController
-  before_action :set_observation, only: [:show, :update, :destroy]
+  before_action :set_observation, only: [:show, :update, :destroy, :members]
 
   def index
      @observations = Observation.all
@@ -33,7 +33,10 @@ class ObservationsController < ApplicationController
       render json: {error: 'unable to delete.'}, status: 400
     end
   end
-
+  def members
+    @observation.action.members.create(user_id: params['user_id'])
+    
+  end
   private
 
   def set_observation
@@ -41,7 +44,7 @@ class ObservationsController < ApplicationController
   end
   
   def observation_params
-    params.permit(:title, :description, :plot_id, actions_attributes: [:id,:action_description, :category_id ], files: [])
+    params.require(:observation).permit(:title, :description, :plot_id, actions_attributes: [:id,:action_description, :status, :due_date, :plot_id, :category_id, :observation_id], files: [])
   end
 
 end

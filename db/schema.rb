@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_17_102754) do
+ActiveRecord::Schema.define(version: 2020_11_18_112126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,7 +21,11 @@ ActiveRecord::Schema.define(version: 2020_11_17_102754) do
     t.bigint "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "observation_id"
+    t.integer "status", default: 0
+    t.datetime "due_date"
     t.index ["category_id"], name: "index_actions_on_category_id"
+    t.index ["observation_id"], name: "index_actions_on_observation_id"
     t.index ["plot_id"], name: "index_actions_on_plot_id"
   end
 
@@ -52,6 +56,30 @@ ActiveRecord::Schema.define(version: 2020_11_17_102754) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.bigint "action_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action_id"], name: "index_members_on_action_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
   create_table "observations", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -76,12 +104,6 @@ ActiveRecord::Schema.define(version: 2020_11_17_102754) do
     t.integer "parent_id"
   end
 
-  create_table "site_ns", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
@@ -89,5 +111,6 @@ ActiveRecord::Schema.define(version: 2020_11_17_102754) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "actions", "observations"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
 end

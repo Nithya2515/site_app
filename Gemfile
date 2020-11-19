@@ -18,6 +18,9 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'jwt_sessions', '~> 2'
 gem 'rack-cors'
 gem 'closure_tree'
+gem 'active_model_serializers', '~> 0.10.0'
+
+gem 'delayed_job_active_record'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
@@ -34,6 +37,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry-rails'
 end
 
 group :development do
