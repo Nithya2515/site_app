@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   resources :plots do
     resources :observations do
+      resources :file_elements
       post :members, on: :member
     end
   end
